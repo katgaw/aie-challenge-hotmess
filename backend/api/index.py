@@ -54,11 +54,8 @@ async def favicon():
     return Response(status_code=204)
 
 # Vercel serverless function handler
-try:
-    from mangum import Mangum
-    handler = Mangum(app)
-except ImportError:
-    handler = None
+from mangum import Mangum
+handler = Mangum(app)
 
 if __name__ == "__main__":
     import uvicorn
