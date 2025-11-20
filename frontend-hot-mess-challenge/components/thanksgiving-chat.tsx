@@ -77,10 +77,13 @@ Keep responses concise, entertaining, and actually helpful. Make people laugh wh
     setError("")
 
     try {
-      // Use relative path - Next.js will handle routing via rewrites
-      // In production: Vercel routes /api/* to /api/index.py
-      // In development: next.config.ts proxies /api/* to localhost:8000
-      const response = await fetch("/api/chat", {
+      // Use environment variable for backend URL if deployed separately
+      // Falls back to relative path if in same Vercel project
+      // Falls back to localhost in development
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || ""
+      const apiUrl = backendUrl ? `${backendUrl}/api/chat` : "/api/chat"
+      
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
